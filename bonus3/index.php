@@ -10,13 +10,13 @@ $seconds = date("s",$currentTimestamp);
 
 
 //проверяем кратность 3
-if ($minutes%3 == 0) {
+if ($minutes%3 == 0 && $minutes != 0) {
     $width = $hour*20;
     $hight = $day**3;
     $red = 255;
     $green = 0;
     $blue = 0;
-} elseif($minutes%2 == 0) {
+} elseif($minutes%2 == 0 && $minutes != 0) {
     //проверяем кратность 2
     $width = floor(sqrt($year))*5;
     $hight = floor(sqrt($year))*5;
