@@ -9,6 +9,8 @@ abstract class Product
     private $priceWithoutVAT;
     /*статическое свойство счетчика*/
     public static $counter = 0;
+    public static $companyName = 'Devlopix';
+    const YEAR_START = 2016;
 
     /*Вызов функции при конструировнии*/
     protected function __construct(string $name, float $price, float $weight, int $vat = 20, bool $inclededVAT = true)
@@ -30,6 +32,11 @@ abstract class Product
     {
         $this->price *= 0.8;
         echo "Продукт с наименованием: $this->name. При весе $this->weight грамм имеет цену $this->priceWithoutVAT руб. без НДС<br><br>";
+    }
+
+    public static function showCompanyInfo()
+    {
+        echo 'Компания ' . self::$companyName . ' основана в ' . self::YEAR_START . ' году. <br>';
     }
     /*абстрактный метод доступный только при наследовании*/
     abstract protected function showImage();
@@ -88,6 +95,10 @@ $product2->printInfoVAT();
 $product3 = new Chocolate('Alpen Gold','100', '120', '500');
 
 /*При вызове статического свойства из любого дочернего получаем количество дочерних классов в продуктах*/
-echo "{$product2::$counter} дочерних элемента";
+echo "{$product2::$counter} дочерних элемента <br>";
+/*вызов статического метода через дочерний класс*/
+$product3::showCompanyInfo();
+/*вызов статического метода через родительский абстрактный класс*/
+Product::showCompanyInfo();
 
 
