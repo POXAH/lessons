@@ -17,7 +17,7 @@ class Product
     }
 
     public function printInfoWithoutVAT(){
-        $this->price *= 0.8;
+        $this->price -= round($this->price /120 * 20);
         echo "Продукт с наименованием: $this->name. При весе $this->weight грамм имеет цену $this->price руб. без НДС<br><br>";
     }
 }
