@@ -5,15 +5,19 @@ abstract class Product
     protected $name;
     protected $price;
     protected $weight;
+    public $inclededVAT;
+    private $priceWithoutVAT;
     /*статическое свойство счетчика*/
     public static $counter = 0;
 
     /*Вызов функции при конструировнии*/
-    protected function __construct(string $name, float $price, float $weight)
+    protected function __construct(string $name, float $price, float $weight, int $vat = 20, bool $inclededVAT = true)
     {
-        $this->price = $price;
         $this->weight = $weight;
         $this->name = $name;
+        $this->inclededVAT = $inclededVAT;
+        $this->priceWithoutVAT = ($inclededVAT) ? $price - round($price/(100+$vat) * $vat) : $price;
+        $this->price = ($inclededVAT) ? $price : round($price+$price*$vat/100);
         self::$counter++;
     }
 
@@ -25,7 +29,7 @@ abstract class Product
     public function printInfoWithoutVAT()
     {
         $this->price *= 0.8;
-        echo "Продукт с наименованием: $this->name. При весе $this->weight грамм имеет цену $this->price руб. без НДС<br><br>";
+        echo "Продукт с наименованием: $this->name. При весе $this->weight грамм имеет цену $this->priceWithoutVAT руб. без НДС<br><br>";
     }
     /*абстрактный метод доступный только при наследовании*/
     abstract protected function showImage();
@@ -37,7 +41,7 @@ class Chocolate extends Product
     /*свойство доступное только в этом классе*/
     private $callories;
 
-    public function __construct(string $name, float $price, float $weight, int $callories)
+    public function __construct(string $name, float $price, float $weight, int $callories, int $vat = 20, bool $inclededVAT = true)
     {
         $this->callories = $callories;
         parent::__construct($name, $price, $weight);
@@ -52,7 +56,7 @@ class Chocolate extends Product
 
 class Candy extends Product
 {
-    public function __construct(string $name, float $price, float $weight)
+    public function __construct(string $name, float $price, float $weight, int $vat = 20, bool $inclededVAT = true)
     {
         /*Вызов функции при конструировнии*/
         $this->showImage();
